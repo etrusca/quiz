@@ -14,7 +14,7 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizes
 exports.index = function(req, res) {
-  models.Quiz.findAll().then(
+  models.Quiz.findAll({order: 'tema ASC'}).then(
     function(quizes) {
       res.render('quizes/index.ejs', {quizes: quizes, errors: []});
     }
@@ -44,7 +44,7 @@ exports.answer = function(req, res) {
 // GET /quizes/new
 exports.new = function(req, res) {
   var quiz = models.Quiz.build( // crea objeto quiz
-    {pregunta: "Pregunta", respuesta: "Respuesta"}
+    {tema: "Tema", pregunta: "Pregunta", respuesta: "Respuesta"}
   );
 
   res.render('quizes/new', {quiz: quiz, errors: []});
@@ -61,9 +61,9 @@ exports.create = function(req, res) {
       if (err) {
         res.render('quizes/new', {quiz: quiz, errors: err.errors});
       } else {
-        quiz // save: guarda en DB campos pregunta y respuesta de quiz
-        .save({fields: ["pregunta", "respuesta"]})
-        .then( function(){ res.redirect('/quizes')})
+            // guarda en DB los campos tema, pregunta y respuesta de quiz
+	          quiz.save({fields: ["tema", "pregunta", "respuesta"]}).then(function(){
+              res.redirect('/quizes')})
       }      // res.redirect: Redirección HTTP a lista de preguntas
     }
   ).catch(function(error){next(error)});
@@ -78,6 +78,7 @@ exports.edit = function(req, res) {
 
 // PUT /quizes/:id
 exports.update = function(req, res) {
+  req.quiz.tema	     = req.body.quiz.tema;
   req.quiz.pregunta  = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
 
@@ -88,8 +89,8 @@ exports.update = function(req, res) {
       if (err) {
         res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
       } else {
-        req.quiz     // save: guarda campos pregunta y respuesta en DB
-        .save( {fields: ["pregunta", "respuesta"]})
+        req.quiz     // save: guarda campos tema, pregunta y respuesta en DB
+        .save( {fields: ["tema", "pregunta", "respuesta"]})
         .then( function(){ res.redirect('/quizes');});
       }     // Redirección HTTP a lista de preguntas (URL relativo)
     }
