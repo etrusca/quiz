@@ -16,6 +16,19 @@
 <body>
 <div id="page-wrap">
   <header class="main" id="h1">
+
+  <!--Mostramos siempre en la app el botón de login/logout según corresponda
+    Usuario registrado o Usuario no registrado (el botón flota a la drcha)-->
+    <%if(!session.user){%>
+      <span class="right"><a href="/login"><button>Login</button></a></span>
+      <!--  <span class="right"><a href="/login">Login</a></span>-->
+    <%}else{%>
+      <!-- <span class="right"> <%=session.user.username%> <a href="/logout">Logout</a></span>-->
+        <span class="right"><%=session.user.username%><form method="post" action="logout?_method=delete">
+          <button type="submit" onClick="return confirm('Salir: <%= session.user.username %>');">Logout</button>
+        </form></span>
+    <%}%>
+
     <h2>Quiz<span>: el juego de las preguntas</span></h2>
   </header>
 
