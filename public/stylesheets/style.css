@@ -1,5 +1,7 @@
 *                    { margin: 0; padding: 0; }
 body                 { font: 16px Georgia, serif; }
+form                 { width: 30%; }
+legend               { text-align: left; color: black; font-style: bold; }
 #page-wrap           { margin: 2% auto; color: white; }
 #page-wrap > .main   { border: 1px solid #999; padding: 1%;
 	                   margin-bottom: 1px; color: black;}
