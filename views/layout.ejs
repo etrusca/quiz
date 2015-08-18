@@ -24,7 +24,7 @@
       <!--  <span class="right"><a href="/login">Login</a></span>-->
     <%}else{%>
       <!-- <span class="right"> <%=session.user.username%> <a href="/logout">Logout</a></span>-->
-        <span class="right"><%=session.user.username%><form method="post" action="logout?_method=delete">
+        <span class="right"><%=session.user.username%><form method="post" action="/logout?_method=delete">
           <button type="submit" onClick="return confirm('Salir: <%= session.user.username %>');">Logout</button>
         </form></span>
     <%}%>
