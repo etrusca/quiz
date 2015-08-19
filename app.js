@@ -40,6 +40,25 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(function(req, res, next)
+{
+	var MAX_INACTIVE = 2*60*1000; // Máximo tiempo inactivo 2 minutos
+
+    if(req.session.user) {
+
+     // Eliminar la sesion al superar el tiempo limite de inactividad
+        if((new Date()).getTime() >(req.session.lastActive + Number(MAX_INACTIVE))) {
+            delete req.session.user;
+
+      //Actualizar la hora de la última acctividad realizada
+        } else  {
+            req.session.lastActive = (new Date()).getTime();
+        }
+    }
+    next();
+});
+
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
